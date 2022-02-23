@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <Description>Chaincoin Network</Description>
+	  <AssemblyTitle>Blockcore.Networks.Chaincoin</AssemblyTitle>
+	  <AssemblyName>Blockcore.Networks.Chaincoin</AssemblyName>
+	  <PackageId>Blockcore.Networks.Chaincoin</PackageId>
+	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	  <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Features\Blockcore.Features.Consensus\Blockcore.Features.Consensus.csproj" />
+    <ProjectReference Include="..\..\Features\Blockcore.Features.MemoryPool\Blockcore.Features.MemoryPool.csproj" />
+  </ItemGroup>
+
+</Project>

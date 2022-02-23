@@ -1,5 +1,13 @@
 {
   "profiles": {
+    "CHC (MAIN/LOCAL)": {
+      "commandName": "Project",
+      "commandLineArgs": "--chain=CHC -server -server -port=10994 -rpcport=10995 -apiport=10996 connect=127.0.0.1:11994 whitelist=127.0.0.1:11994 -rpcallowip=127.0.0.1 -rpcbind=127.0.0.1 -rpcpassword=rpcpassword -rpcuser=rpcuser -datadir=nodedata"
+        },
+    "CHC (MAIN)": {
+      "commandName": "Project",
+      "commandLineArgs": "--chain=CHC -server -server -port=10994 -rpcport=10995 -apiport=10996 -rpcallowip=127.0.0.1 -rpcbind=127.0.0.1 -rpcpassword=rpcpassword -rpcuser=rpcuser"
+        },
     "BCP (MAIN)": {
       "commandName": "Project",
       "commandLineArgs": "--chain=BCP -server -iprangefiltering=0 -maxtipage=2147483647 -rpcallowip=127.0.0.1 -rpcbind=127.0.0.1 -rpcpassword=rpcpassword -rpcuser=rpcuser -datadir=rocksdbdata"
