@@ -91,21 +91,22 @@ namespace Blockcore.Networks.Chaincoin
             WitnessScaleFactor = 4
          };
 
-         var buriedDeployments = new BuriedDeploymentsArray
-         {
+        var buriedDeployments = new BuriedDeploymentsArray
+        {
             [BuriedDeployments.BIP34] = 1,
             [BuriedDeployments.BIP65] = 1551170,
             [BuriedDeployments.BIP66] = 1000000
-         };
+        };
 
-         var bip9Deployments = new ChaincoinBIP9Deployments()
-         {
+
+        var bip9Deployments = new ChaincoinBIP9Deployments()
+        {
             [ChaincoinBIP9Deployments.TestDummy] = new BIP9DeploymentsParameters("TestDummy", 28, 1199145601, 1230767999, BIP9DeploymentsParameters.DefaultMainnetThreshold),
             [ChaincoinBIP9Deployments.CSV] = new BIP9DeploymentsParameters("CSV", 0, 1527811200, 1577750400, BIP9DeploymentsParameters.DefaultMainnetThreshold),
             [ChaincoinBIP9Deployments.Segwit] = new BIP9DeploymentsParameters("Segwit", 1, 1527811200, 1577750400, BIP9DeploymentsParameters.DefaultMainnetThreshold)
-         };
+        };
 
-         consensusFactory.Protocol = new ConsensusProtocol()
+            consensusFactory.Protocol = new ConsensusProtocol()
          {
             ProtocolVersion = 70015,
             MinProtocolVersion = 70012,
@@ -167,7 +168,7 @@ namespace Blockcore.Networks.Chaincoin
             this.Base58Prefixes[(int)Base58Type.ASSET_ID] = new byte[] { 23 };
 
             this.Bech32Encoders = new Bech32Encoder[2];
-         var encoder = new Bech32Encoder(network.CoinTicker.ToLowerInvariant());
+            var encoder = new Bech32Encoder(network.CoinTicker.ToLowerInvariant());
             this.Bech32Encoders[(int)Bech32Type.WITNESS_PUBKEY_ADDRESS] = encoder;
             this.Bech32Encoders[(int)Bech32Type.WITNESS_SCRIPT_ADDRESS] = encoder;
 
@@ -182,7 +183,6 @@ namespace Blockcore.Networks.Chaincoin
          //Assert(DefaultBanTimeSeconds <= Consensus.MaxReorgLength * 64 / 2);
 
          Assert(this.Genesis.Header.HashMerkleRoot == uint256.Parse(network.HashMerkleRoot));
-         
          Assert(this.Consensus.HashGenesisBlock == uint256.Parse(network.HashGenesisBlock));
          
          RegisterRules(this.Consensus);
@@ -191,83 +191,38 @@ namespace Blockcore.Networks.Chaincoin
 
       protected void RegisterRules(IConsensus consensus)
       {
-         consensus.ConsensusRules
-            .Register<HeaderTimeChecksRule>()
-                           //.Register<CheckDifficultyPowRule>()
-            .Register<ChaincoinActivationRule>()
-            .Register<ChaincoinHeaderVersionRule>();
+            consensus.ConsensusRules
+               .Register<HeaderTimeChecksRule>()
+               //.Register<CheckDifficultyPowRule>()
+               .Register<ChaincoinActivationRule>()
+               .Register<ChaincoinHeaderVersionRule>();
 
-         consensus.ConsensusRules
-             .Register<BlockMerkleRootRule>();
+            consensus.ConsensusRules
+                .Register<BlockMerkleRootRule>();
 
-         consensus.ConsensusRules
-             .Register<SetActivationDeploymentsPartialValidationRule>()
+            consensus.ConsensusRules
+                .Register<SetActivationDeploymentsPartialValidationRule>()
 
-             .Register<TransactionLocktimeActivationRule>() // implements BIP113
-             .Register<CoinbaseHeightActivationRule>() // implements BIP34
-             .Register<WitnessCommitmentsRule>() // BIP141, BIP144
-             .Register<BlockSizeRule>()
+                .Register<TransactionLocktimeActivationRule>() // implements BIP113
+                .Register<CoinbaseHeightActivationRule>() // implements BIP34
+                .Register<WitnessCommitmentsRule>() // BIP141, BIP144
+                .Register<BlockSizeRule>()
 
-             // rules that are inside the method CheckBlock
-             .Register<EnsureCoinbaseRule>()
-             .Register<CheckPowTransactionRule>()
-             .Register<CheckSigOpsRule>();
+                // rules that are inside the method CheckBlock
+                .Register<EnsureCoinbaseRule>()
+                .Register<CheckPowTransactionRule>()
+                .Register<CheckSigOpsRule>();
 
-         //consensus.ConsensusRules
-         //    .Register<SetActivationDeploymentsFullValidationRule>()
+            consensus.ConsensusRules
+                .Register<SetActivationDeploymentsFullValidationRule>()
 
-         //    // rules that require the store to be loaded (coinview)
-         //    .Register<FetchUtxosetRule>()
-         //    .Register<TransactionDuplicationActivationRule>() // implements BIP30
-         //    .Register<CheckPowUtxosetPowRule>()// implements BIP68, MaxSigOps and BlockReward calculation
-         //    .Register<PushUtxosetRule>()
-         //    .Register<FlushUtxosetRule>();
-         //consensus.ConsensusRules
-         //    .Register<HeaderTimeChecksRule>()
-         //    .Register<HeaderTimeChecksPosRule>()
-         //    .Register<PosFutureDriftRule>()
-         //    .Register<CheckDifficultyPosRule>()
-         //    .Register<ChaincoinHeaderVersionRule>()
-         //    .Register<ProvenHeaderSizeRule>()
-         //    .Register<ProvenHeaderCoinstakeRule>();
-
-         //consensus.ConsensusRules
-         //    .Register<BlockMerkleRootRule>()
-         //    .Register<PosBlockSignatureRepresentationRule>()
-         //    .Register<PosBlockSignatureRule>();
-
-         //consensus.ConsensusRules
-         //    .Register<SetActivationDeploymentsPartialValidationRule>()
-         //    .Register<PosTimeMaskRule>()
-
-         //    // rules that are inside the method ContextualCheckBlock
-         //    .Register<TransactionLocktimeActivationRule>()
-         //    .Register<CoinbaseHeightActivationRule>()
-         //    .Register<WitnessCommitmentsRule>()
-         //    .Register<BlockSizeRule>()
-
-         //    // rules that are inside the method CheckBlock
-         //    .Register<EnsureCoinbaseRule>()
-         //    .Register<CheckPowTransactionRule>()
-         //    .Register<CheckPosTransactionRule>()
-         //    .Register<CheckSigOpsRule>()
-         //    .Register<PosCoinstakeRule>();
-
-         //consensus.ConsensusRules
-         //    .Register<SetActivationDeploymentsFullValidationRule>()
-
-         //    .Register<CheckDifficultyHybridRule>()
-
-         //    // rules that require the store to be loaded (coinview)
-         //    .Register<FetchUtxosetRule>()
-         //    .Register<TransactionDuplicationActivationRule>()
-         //    .Register<CheckPosUtxosetRule>() // implements BIP68, MaxSigOps and BlockReward calculation
-         //                                     // Place the PosColdStakingRule after the PosCoinviewRule to ensure that all input scripts have been evaluated
-         //                                     // and that the "IsColdCoinStake" flag would have been set by the OP_CHECKCOLDSTAKEVERIFY opcode if applicable.
-         //    .Register<PosColdStakingRule>()
-         //    .Register<PushUtxosetRule>()
-         //    .Register<FlushUtxosetRule>();
-      }
+                // rules that require the store to be loaded (coinview)
+                .Register<FetchUtxosetRule>()
+                .Register<TransactionDuplicationActivationRule>() // implements BIP30
+                .Register<CheckPowUtxosetPowRule>()// implements BIP68, MaxSigOps and BlockReward calculation
+                .Register<PushUtxosetRule>()
+                .Register<FlushUtxosetRule>();
+        }
 
       protected void RegisterMempoolRules(IConsensus consensus)
       {

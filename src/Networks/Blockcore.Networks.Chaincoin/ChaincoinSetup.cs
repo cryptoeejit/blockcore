@@ -22,8 +22,8 @@ namespace Blockcore.Networks.Chaincoin
          LastPowBlock = default(int),
          GenesisText = "18-01-14 - Anti-fracking campaigners chain themselves to petrol pumps", // The New York Times, 2020-04-16
          TargetSpacing = TimeSpan.FromSeconds(90),
-         ProofOfStakeTimestampMask = 0x0000000F, // 0x0000003F // 64 sec
-         PoSVersion = 4
+         ProofOfStakeTimestampMask = 0, //0x0000000F, // 0x0000003F // 64 sec
+         PoSVersion = 0 //4
       };
 
       internal NetworkSetup Main = new NetworkSetup
